@@ -14,6 +14,9 @@
 #include <flashdb.h>
 #include <rtthread.h>
 
+/* please defined the _global_kvdb and _global_tsdb then remove '#if 0' */
+#if 0
+
 extern struct fdb_kvdb _global_kvdb;
 extern struct fdb_tsdb _global_tsdb;
 
@@ -160,3 +163,5 @@ MSH_CMD_EXPORT_ALIAS(tsl, tsl, Time series log. tsl [add log content|get [from_s
 #endif /* defined(FDB_USING_TSDB) */
 
 #endif /* defined(RT_USING_FINSH) && defined(FINSH_USING_MSH) */
+
+#endif /* if 0 */
