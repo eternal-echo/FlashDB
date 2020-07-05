@@ -287,38 +287,43 @@ static fdb_err_t update_sec_status(fdb_tsdb_t db, tsdb_sec_info_t sector, fdb_bl
 	uint8_t status[FDB_STORE_STATUS_TABLE_SIZE];
 
 	if (sector->status == FDB_SECTOR_STORE_USING && sector->remain < LOG_IDX_DATA_SIZE + FDB_WG_ALIGN(blob->size)) {
-        uint8_t end_status[TSL_STATUS_TABLE_SIZE];
-        uint32_t end_index = sector->empty_idx - LOG_IDX_DATA_SIZE, new_sec_addr, cur_sec_addr = sector->addr;
-        /* save the end node index and timestamp */
-        if (sector->end_info_stat[0] == FDB_TSL_UNUSED) {
-            _FDB_WRITE_STATUS(db, cur_sec_addr + SECTOR_END0_STATUS_OFFSET, end_status, FDB_TSL_STATUS_NUM, FDB_TSL_PRE_WRITE);
-            FLASH_WRITE(db, cur_sec_addr + SECTOR_END0_TIME_OFFSET, (uint32_t * )&db->last_time, sizeof(fdb_time_t));
-            FLASH_WRITE(db, cur_sec_addr + SECTOR_END0_IDX_OFFSET, &end_index, sizeof(end_index));
-            _FDB_WRITE_STATUS(db, cur_sec_addr + SECTOR_END0_STATUS_OFFSET, end_status, FDB_TSL_STATUS_NUM, FDB_TSL_WRITE);
-        } else if (sector->end_info_stat[1] == FDB_TSL_UNUSED) {
-            _FDB_WRITE_STATUS(db, cur_sec_addr + SECTOR_END1_STATUS_OFFSET, end_status, FDB_TSL_STATUS_NUM, FDB_TSL_PRE_WRITE);
-            FLASH_WRITE(db, cur_sec_addr + SECTOR_END1_TIME_OFFSET, (uint32_t * )&db->last_time, sizeof(fdb_time_t));
-            FLASH_WRITE(db, cur_sec_addr + SECTOR_END1_IDX_OFFSET, &end_index, sizeof(end_index));
-            _FDB_WRITE_STATUS(db, cur_sec_addr + SECTOR_END1_STATUS_OFFSET, end_status, FDB_TSL_STATUS_NUM, FDB_TSL_WRITE);
-        }
-        /* change current sector to full */
-        _FDB_WRITE_STATUS(db, cur_sec_addr, status, FDB_SECTOR_STORE_STATUS_NUM, FDB_SECTOR_STORE_FULL);
-        /* calculate next sector address */
-        if (sector->addr + db_sec_size(db) < db_part_size(db)) {
-            new_sec_addr = sector->addr + db_sec_size(db);
-        } else {
-            new_sec_addr = 0;
-        }
-        read_sector_info(db, new_sec_addr, &db->cur_sec, false);
-        if (sector->status != FDB_SECTOR_STORE_EMPTY) {
-            /* calculate the oldest sector address */
-            if (new_sec_addr + db_sec_size(db) < db_part_size(db)) {
-                db->oldest_addr = new_sec_addr + db_sec_size(db);
-            } else {
-                db->oldest_addr = 0;
+        if (db->rollover) {
+            uint8_t end_status[TSL_STATUS_TABLE_SIZE];
+            uint32_t end_index = sector->empty_idx - LOG_IDX_DATA_SIZE, new_sec_addr, cur_sec_addr = sector->addr;
+            /* save the end node index and timestamp */
+            if (sector->end_info_stat[0] == FDB_TSL_UNUSED) {
+                _FDB_WRITE_STATUS(db, cur_sec_addr + SECTOR_END0_STATUS_OFFSET, end_status, FDB_TSL_STATUS_NUM, FDB_TSL_PRE_WRITE);
+                FLASH_WRITE(db, cur_sec_addr + SECTOR_END0_TIME_OFFSET, (uint32_t * )&db->last_time, sizeof(fdb_time_t));
+                FLASH_WRITE(db, cur_sec_addr + SECTOR_END0_IDX_OFFSET, &end_index, sizeof(end_index));
+                _FDB_WRITE_STATUS(db, cur_sec_addr + SECTOR_END0_STATUS_OFFSET, end_status, FDB_TSL_STATUS_NUM, FDB_TSL_WRITE);
+            } else if (sector->end_info_stat[1] == FDB_TSL_UNUSED) {
+                _FDB_WRITE_STATUS(db, cur_sec_addr + SECTOR_END1_STATUS_OFFSET, end_status, FDB_TSL_STATUS_NUM, FDB_TSL_PRE_WRITE);
+                FLASH_WRITE(db, cur_sec_addr + SECTOR_END1_TIME_OFFSET, (uint32_t * )&db->last_time, sizeof(fdb_time_t));
+                FLASH_WRITE(db, cur_sec_addr + SECTOR_END1_IDX_OFFSET, &end_index, sizeof(end_index));
+                _FDB_WRITE_STATUS(db, cur_sec_addr + SECTOR_END1_STATUS_OFFSET, end_status, FDB_TSL_STATUS_NUM, FDB_TSL_WRITE);
             }
-            format_sector(db, new_sec_addr);
+            /* change current sector to full */
+            _FDB_WRITE_STATUS(db, cur_sec_addr, status, FDB_SECTOR_STORE_STATUS_NUM, FDB_SECTOR_STORE_FULL);
+            /* calculate next sector address */
+            if (sector->addr + db_sec_size(db) < db_part_size(db)) {
+                new_sec_addr = sector->addr + db_sec_size(db);
+            } else {
+                new_sec_addr = 0;
+            }
             read_sector_info(db, new_sec_addr, &db->cur_sec, false);
+            if (sector->status != FDB_SECTOR_STORE_EMPTY) {
+                /* calculate the oldest sector address */
+                if (new_sec_addr + db_sec_size(db) < db_part_size(db)) {
+                    db->oldest_addr = new_sec_addr + db_sec_size(db);
+                } else {
+                    db->oldest_addr = 0;
+                }
+                format_sector(db, new_sec_addr);
+                read_sector_info(db, new_sec_addr, &db->cur_sec, false);
+            }
+        } else {
+            /* not rollover */
+            return FDB_SAVED_FULL;
         }
     }
 
@@ -341,10 +346,16 @@ static fdb_err_t tsl_append(fdb_tsdb_t db, fdb_blob_t blob)
 
     FDB_ASSERT(blob->size <= db->max_len);
 
-    update_sec_status(db, &db->cur_sec, blob, cur_time);
+    result = update_sec_status(db, &db->cur_sec, blob, cur_time);
+    if (result != FDB_NO_ERR) {
+        return result;
+    }
 
     /* write the TSL node */
     result = write_tsl(db, blob, cur_time);
+    if (result != FDB_NO_ERR) {
+        return result;
+    }
 
     /* recalculate the current using sector info */
     db->cur_sec.end_idx = db->cur_sec.empty_idx;
@@ -472,8 +483,7 @@ void fdb_tsl_iter_by_time(fdb_tsdb_t db, fdb_time_t from, fdb_time_t to, fdb_tsl
                 /* copy the current using sector status  */
                 sector = db->cur_sec;
             }
-            if ((!found_start_tsl && ((sector.start_time <= from && sector.end_time >= from) || (sector.start_time <= to)))
-                    || (found_start_tsl)) {
+            if ((!found_start_tsl && (from >= sector.start_time && from <= sector.end_time)) || (found_start_tsl)) {
                 uint32_t start = sector.addr + SECTOR_HDR_DATA_SIZE, end = sector.end_idx;
 
                 found_start_tsl = true;
@@ -529,7 +539,7 @@ static bool query_count_cb(fdb_tsl_t tsl, void *arg)
  */
 size_t fdb_tsl_query_count(fdb_tsdb_t db, fdb_time_t from, fdb_time_t to, fdb_tsl_status_t status)
 {
-    struct query_count_args arg = { 0 };
+    struct query_count_args arg = { FDB_TSL_UNUSED, 0 };
 
     arg.status = status;
 
@@ -646,6 +656,41 @@ void fdb_tsl_clean(fdb_tsdb_t db)
 }
 
 /**
+ * This function will get or set some options of the database
+ *
+ * @param db database object
+ * @param cmd the control command
+ * @param arg the argument
+ */
+void fdb_tsdb_control(fdb_tsdb_t db, int cmd, void *arg)
+{
+    FDB_ASSERT(db);
+
+    switch (cmd) {
+    case FDB_TSDB_CTRL_SET_ROLLOVER:
+        db->rollover = *(bool *)arg;
+        break;
+    case FDB_TSDB_CTRL_GET_ROLLOVER:
+        *(bool *)arg = db->rollover;
+        break;
+    case FDB_TSDB_CTRL_SET_SEC_SIZE:
+        /* the sector size change MUST before database initialization */
+        FDB_ASSERT(db->parent.init_ok == false);
+        db->parent.sec_size = *(uint32_t *)arg;
+        break;
+    case FDB_TSDB_CTRL_GET_SEC_SIZE:
+        *(uint32_t *)arg = db->parent.sec_size;
+        break;
+    case FDB_TSDB_CTRL_SET_LOCK:
+        db->parent.lock = (void (*)(fdb_db_t db))arg;
+        break;
+    case FDB_TSDB_CTRL_SET_UNLOCK:
+        db->parent.unlock = (void (*)(fdb_db_t db))arg;
+        break;
+    }
+}
+
+/**
  * The time series database initialization.
  *
  * @param db database object
@@ -666,9 +711,14 @@ fdb_err_t fdb_tsdb_init(fdb_tsdb_t db, const char *name, const char *part_name, 
     FDB_ASSERT(get_time);
 
     result = _fdb_init_ex((fdb_db_t)db, name, part_name, FDB_DB_TYPE_TS, user_data);
+    if (result != FDB_NO_ERR) {
+        goto __exit;
+    }
 
     db->get_time = get_time;
     db->max_len = max_len;
+    /* default rollover flag is true */
+    db->rollover = true;
     db->oldest_addr = FDB_DATA_UNUSED;
     db->cur_sec.addr = FDB_DATA_UNUSED;
     /* must align with sector size */
@@ -699,10 +749,12 @@ fdb_err_t fdb_tsdb_init(fdb_tsdb_t db, const char *name, const char *part_name, 
             db->oldest_addr = latest_addr + db_sec_size(db);
         }
     }
-    FDB_DEBUG("tsdb (%s) oldest sectors is 0x%08lX, current using sector is 0x%08lX.\n", db_name(db), db->oldest_addr,
+    FDB_DEBUG("TSDB (%s) oldest sectors is 0x%08lX, current using sector is 0x%08lX.\n", db_name(db), db->oldest_addr,
             db->cur_sec.addr);
     /* read the current using sector info */
     read_sector_info(db, db->cur_sec.addr, &db->cur_sec, true);
+
+__exit:
 
     _fdb_init_finish((fdb_db_t)db, result);
 

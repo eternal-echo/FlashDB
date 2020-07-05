@@ -17,22 +17,22 @@ extern "C" {
 #endif
 
 /* software version number */
-#define FDB_SW_VERSION                  "1.0.0 beta"
-#define FDB_SW_VERSION_NUM              0x10000
+#define FDB_SW_VERSION                 "1.0.0 beta"
+#define FDB_SW_VERSION_NUM             0x10000
 
 /* the KV max name length must less then it */
 #ifndef FDB_KV_NAME_MAX
-#define FDB_KV_NAME_MAX                 32
+#define FDB_KV_NAME_MAX                32
 #endif
 
 /* the KV cache table size, it will improve KV search speed when using cache */
 #ifndef FDB_KV_CACHE_TABLE_SIZE
-#define FDB_KV_CACHE_TABLE_SIZE         16
+#define FDB_KV_CACHE_TABLE_SIZE        16
 #endif
 
 /* the sector cache table size, it will improve KV save speed when using cache */
 #ifndef FDB_SECTOR_CACHE_TABLE_SIZE
-#define FDB_SECTOR_CACHE_TABLE_SIZE     4
+#define FDB_SECTOR_CACHE_TABLE_SIZE    4
 #endif
 
 #if (FDB_KV_CACHE_TABLE_SIZE > 0) && (FDB_SECTOR_CACHE_TABLE_SIZE > 0)
@@ -41,18 +41,18 @@ extern "C" {
 
 /* log function. default FDB_PRINT macro is printf() */
 #ifndef FDB_PRINT
-#define FDB_PRINT(...)                  printf(__VA_ARGS__)
+#define FDB_PRINT(...)                 printf(__VA_ARGS__)
 #endif
-#define FDB_LOG_PREFIX1()               FDB_PRINT("[FlashDB]"FDB_LOG_TAG)
-#define FDB_LOG_PREFIX2()               FDB_PRINT(" ")
-#define FDB_LOG_PREFIX()                FDB_LOG_PREFIX1();FDB_LOG_PREFIX2()
+#define FDB_LOG_PREFIX1()              FDB_PRINT("[FlashDB]"FDB_LOG_TAG)
+#define FDB_LOG_PREFIX2()              FDB_PRINT(" ")
+#define FDB_LOG_PREFIX()               FDB_LOG_PREFIX1();FDB_LOG_PREFIX2()
 #ifdef FDB_DEBUG_ENABLE
-#define FDB_DEBUG(...)                  FDB_LOG_PREFIX();FDB_PRINT("(%s:%d) ", __FILE__, __LINE__);FDB_PRINT(__VA_ARGS__)
+#define FDB_DEBUG(...)                 FDB_LOG_PREFIX();FDB_PRINT("(%s:%d) ", __FILE__, __LINE__);FDB_PRINT(__VA_ARGS__)
 #else
 #define FDB_DEBUG(...)
 #endif
 /* routine print function. Must be implement by user. */
-#define FDB_INFO(...)                   FDB_LOG_PREFIX();FDB_PRINT(__VA_ARGS__)
+#define FDB_INFO(...)                  FDB_LOG_PREFIX();FDB_PRINT(__VA_ARGS__)
 /* assert for developer. */
 #define FDB_ASSERT(EXPR)                                                      \
 if (!(EXPR))                                                                  \
@@ -60,6 +60,18 @@ if (!(EXPR))                                                                  \
     FDB_DEBUG("(%s) has assert failed at %s.\n", #EXPR, __FUNCTION__);        \
     while (1);                                                                \
 }
+
+#define FDB_KVDB_CTRL_SET_SEC_SIZE     0x0             /**< set sector size control command */
+#define FDB_KVDB_CTRL_GET_SEC_SIZE     0x1             /**< get sector size control command */
+#define FDB_KVDB_CTRL_SET_LOCK         0x2             /**< set lock function control command */
+#define FDB_KVDB_CTRL_SET_UNLOCK       0x3             /**< set unlock function control command */
+
+#define FDB_TSDB_CTRL_SET_SEC_SIZE     0x0             /**< set sector size control command */
+#define FDB_TSDB_CTRL_GET_SEC_SIZE     0x1             /**< get sector size control command */
+#define FDB_TSDB_CTRL_SET_LOCK         0x2             /**< set lock function control command */
+#define FDB_TSDB_CTRL_SET_UNLOCK       0x3             /**< set unlock function control command */
+#define FDB_TSDB_CTRL_SET_ROLLOVER     0x4             /**< set rollover control command */
+#define FDB_TSDB_CTRL_GET_ROLLOVER     0x5             /**< get rollover control command */
 
 typedef time_t fdb_time_t;
 #ifdef FDB_USING_TIMESTAMP_64BIT
@@ -87,7 +99,7 @@ typedef enum {
     FDB_PART_NOT_FOUND,
     FDB_KV_NAME_ERR,
     FDB_KV_NAME_EXIST,
-    FDB_KV_FULL,
+    FDB_SAVED_FULL,
     FDB_INIT_FAILED,
 } fdb_err_t;
 
@@ -128,6 +140,15 @@ struct fdb_kv {
     } addr;
 };
 typedef struct fdb_kv *fdb_kv_t;
+
+struct fdb_kv_iterator {
+    struct fdb_kv curr_kv;                       /**< Current KV we get from the iterator */
+    uint32_t iterated_cnt;                       /**< How many KVs have we iterated already */
+    size_t iterated_obj_bytes;                   /**< Total storage size of KVs we have iterated. */
+    size_t iterated_value_bytes;                 /**< Total value size of KVs we have iterated. */
+    uint32_t sector_addr;                        /**< Current sector address we're iterating. DO NOT touch it. */
+};
+typedef struct fdb_kv_iterator *fdb_kv_iterator_t;
 
 /* time series log node object */
 struct fdb_tsl {
@@ -255,6 +276,7 @@ struct fdb_tsdb {
     fdb_get_time get_time;                       /**< the current timestamp get function */
     size_t max_len;                              /**< the max log length */
     uint32_t oldest_addr;                        /**< the oldest sector start address */
+    bool rollover;                               /**< the oldest data will rollover by newest data, default is true */
 
     void *user_data;
 };
