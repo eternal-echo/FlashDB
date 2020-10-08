@@ -1,27 +1,15 @@
-/*
- * Copyright (c) 2020, Armink, <armink.ztl@gmail.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
+# 字符串类型 KV 示例
 
-/**
- * @file
- * @brief string KV samples.
- *
- * Key-Value Database string type KV feature samples source file.
- */
+该示例主要演示了字符串 KV 的相关功能，字符串 KV 作为一个特殊的 KV 类型，其 Key 与 Value 均为字符串，常被用于参数存储、命令存储等可读性要求较高的场景。
 
-#include <flashdb.h>
-#include <string.h>
+## 代码说明
 
-#ifdef FDB_USING_KVDB
+示例代码位于 `samples/kvdb_type_string.c` ，使用一个名为 `"temp"` 的 KV 来存储温度值，分别演示了字符串 KV 从 `创建->读取->修改->删除` 的全过程。大致内容如下：
 
-#define FDB_LOG_TAG "[sample][kvdb][string]"
-
+```C
 void kvdb_type_string_sample(fdb_kvdb_t kvdb)
 {
     FDB_INFO("==================== kvdb_type_string_sample ====================\n");
-
     { /* CREATE new Key-Value */
         char temp_data[10] = "36C";
 
@@ -59,5 +47,23 @@ void kvdb_type_string_sample(fdb_kvdb_t kvdb)
 
     FDB_INFO("===========================================================\n");
 }
+```
 
-#endif /* FDB_USING_KVDB */
+## 运行日志
+
+通过日志可以看出：
+
+- 首先创建了一个 KV 名为 `"temp"` ，并给予初值 36℃
+- 读取 `"temp"` KV 当前的值，发现与初值相同
+- 修改 `"temp"` KV 的值为  38℃
+- 最后删除 `"temp"` KV
+
+```
+[FlashDB][sample][kvdb][string] ==================== kvdb_type_string_sample ====================
+[FlashDB][sample][kvdb][string] create the 'temp' string KV, value is: 36C
+[FlashDB][sample][kvdb][string] get the 'temp' value is: 36C
+[FlashDB][sample][kvdb][string] set 'temp' value to 38C
+[FlashDB][sample][kvdb][string] delete the 'temp' finish
+[FlashDB][sample][kvdb][string] ===========================================================
+```
+

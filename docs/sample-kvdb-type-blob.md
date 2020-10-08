@@ -1,22 +1,12 @@
-/*
- * Copyright (c) 2020, Armink, <armink.ztl@gmail.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
+# blob type KV example
 
-/**
- * @file
- * @brief blob KV samples.
- *
- * Key-Value Database blob type KV feature samples
- */
+This example mainly demonstrates the related functions of blob KV. Blob KV is a more commonly used type, and its value is a binary type without type restrictions. Functionally, blob KV is also compatible with string KV. In the use of API, blob KV has a set of independent APIs, which can quickly realize the storage of various types of KV to KVDB, such as basic types, arrays and structures.
 
-#include <flashdb.h>
+## Code description
 
-#ifdef FDB_USING_KVDB
+The sample code is located in `samples/kvdb_type_blob.c`, and a KV named `"temp"` is used to store the temperature value, respectively demonstrating the whole process of blob KV from `create->read->modify->delete`. The general content is as follows:
 
-#define FDB_LOG_TAG "[sample][kvdb][blob]"
-
+```C
 void kvdb_type_blob_sample(fdb_kvdb_t kvdb)
 {
     struct fdb_blob blob;
@@ -59,5 +49,23 @@ void kvdb_type_blob_sample(fdb_kvdb_t kvdb)
 
     FDB_INFO("===========================================================\n");
 }
+```
 
-#endif /* FDB_USING_KVDB */
+## Running log
+
+It can be seen from the log:
+
+- First create a KV named `"temp"` and give the initial value 36℃
+- Read the current value of `"temp"` KV and find that it is the same as the initial value
+- Modify the value of `"temp"` KV to 38℃
+- Finally delete `"temp"` KV
+
+```
+[FlashDB][sample][kvdb][blob] ==================== kvdb_type_blob_sample ====================
+[FlashDB][sample][kvdb][blob] create the 'temp' blob KV, value is: 36
+[FlashDB][sample][kvdb][blob] get the 'temp' value is: 36
+[FlashDB][sample][kvdb][blob] set 'temp' value to 38
+[FlashDB][sample][kvdb][blob] delete the 'temp' finish
+[FlashDB][sample][kvdb][blob] ===========================================================
+```
+

@@ -1,27 +1,15 @@
-/*
- * Copyright (c) 2020, Armink, <armink.ztl@gmail.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
+# String type KV example
 
-/**
- * @file
- * @brief string KV samples.
- *
- * Key-Value Database string type KV feature samples source file.
- */
+This example mainly demonstrates the related functions of the string KV. As a special KV type, the Key and Value of the string KV are both strings, which are often used in scenarios with high readability requirements such as parameter storage and command storage.
 
-#include <flashdb.h>
-#include <string.h>
+## Code description
 
-#ifdef FDB_USING_KVDB
+The sample code is located in `samples/kvdb_type_string.c`, and a KV named `"temp"` is used to store the temperature value, which respectively demonstrates the whole process of the string KV from `create->read->modify->delete` . The general content is as follows:
 
-#define FDB_LOG_TAG "[sample][kvdb][string]"
-
+```C
 void kvdb_type_string_sample(fdb_kvdb_t kvdb)
 {
     FDB_INFO("==================== kvdb_type_string_sample ====================\n");
-
     { /* CREATE new Key-Value */
         char temp_data[10] = "36C";
 
@@ -59,5 +47,23 @@ void kvdb_type_string_sample(fdb_kvdb_t kvdb)
 
     FDB_INFO("===========================================================\n");
 }
+```
 
-#endif /* FDB_USING_KVDB */
+## Run log
+
+It can be seen from the log:
+
+- First create a KV named `"temp"` and give the initial value 36℃
+- Read the current value of `"temp"` KV and find that it is the same as the initial value
+- Modify the value of `"temp"` KV to 38℃
+- Finally delete `"temp"` KV
+
+```
+[FlashDB][sample][kvdb][string] ==================== kvdb_type_string_sample ====================
+[FlashDB][sample][kvdb][string] create the 'temp' string KV, value is: 36C
+[FlashDB][sample][kvdb][string] get the 'temp' value is: 36C
+[FlashDB][sample][kvdb][string] set 'temp' value to 38C
+[FlashDB][sample][kvdb][string] delete the 'temp' finish
+[FlashDB][sample][kvdb][string] ===========================================================
+```
+
