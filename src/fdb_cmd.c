@@ -15,9 +15,9 @@
 #include <rtthread.h>
 
 /* please defined the _global_kvdb and _global_tsdb then remove '#if 0' */
-#if 1
+#if 0
 
-extern struct fdb_kvdb _global_kvdb;
+extern struct fdb_kvdb *_global_kvdb;
 extern struct fdb_tsdb _global_tsdb;
 
 #if defined(RT_USING_FINSH) && defined(FINSH_USING_MSH) && defined(FDB_USING_KVDB)
@@ -35,21 +35,21 @@ static void __setenv(uint8_t argc, char **argv) {
     if (argc == 1) {
         rt_kprintf("Please input: setenv <key> [value]\n");
     } else if (argc == 2) {
-        fdb_kv_set(&_global_kvdb, argv[1], NULL);
+        fdb_kv_set(_global_kvdb, argv[1], NULL);
     } else {
-        fdb_kv_set(&_global_kvdb, argv[1], argv[2]);
+        fdb_kv_set(_global_kvdb, argv[1], argv[2]);
     }
 }
 MSH_CMD_EXPORT_ALIAS(__setenv, setenv, Set an envrionment variable.);
 
 static void printenv(uint8_t argc, char **argv) {
-    fdb_kv_print(&_global_kvdb);
+    fdb_kv_print(_global_kvdb);
 }
 MSH_CMD_EXPORT(printenv, Print all envrionment variables.);
 
 static void getvalue(uint8_t argc, char **argv) {
     char *value = NULL;
-    value = fdb_kv_get(&_global_kvdb, argv[1]);
+    value = fdb_kv_get(_global_kvdb, argv[1]);
     if (value) {
         rt_kprintf("The %s value is %s.\n", argv[1], value);
     } else {
@@ -59,7 +59,7 @@ static void getvalue(uint8_t argc, char **argv) {
 MSH_CMD_EXPORT(getvalue, Get an envrionment variable by name.);
 
 static void resetenv(uint8_t argc, char **argv) {
-    fdb_kv_set_default(&_global_kvdb);
+    fdb_kv_set_default(_global_kvdb);
 }
 MSH_CMD_EXPORT(resetenv, Reset all envrionment variable to default.);
 
@@ -101,19 +101,19 @@ static void tsl(uint8_t argc, char **argv) {
     time_t from_time = mktime(&tm_from), to_time = mktime(&tm_to);
     rt_tick_t start_tick = rt_tick_get(), end_tick;
 
-    if (!strcmp(argv[1], "add") && (argc > 2)) {
+    if ((argc > 2) && !strcmp(argv[1], "add")) {
         fdb_tsl_append(&_global_tsdb, fdb_blob_make(&blob, argv[2], strlen(argv[2])));
-    } else if (!strcmp(argv[1], "get") && (argc > 1)) {
+    } else if ((argc > 1) && !strcmp(argv[1], "get")) {
         fdb_tsl_iter_by_time(&_global_tsdb, from_time, to_time, tsl_cb, NULL);
 //        fdb_ts_iter_by_time(&_global_tsdb, atoi(argv[2]), atoi(argv[3]), ts_cb, NULL);
-    } else if (!strcmp(argv[1], "clean") && (argc > 1)) {
+    } else if ((argc > 1) && !strcmp(argv[1], "clean")) {
         fdb_tsl_clean(&_global_tsdb);
-    } else if (!strcmp(argv[1], "query") && (argc > 2)) {
+    } else if ((argc > 2) && !strcmp(argv[1], "query")) {
         int status = atoi(argv[2]);
         size_t count;
         count = fdb_tsl_query_count(&_global_tsdb, from_time, to_time, status);
         rt_kprintf("query count: %d\n", count);
-    } else if (!strcmp(argv[1], "bench") && (argc > 1)) {
+    } else if ((argc > 1) && !strcmp(argv[1], "bench")) {
 #define BENCH_TIMEOUT        (5*1000)
         struct fdb_blob blob;
         static char data[11], log[128];

@@ -17,8 +17,8 @@ extern "C" {
 #endif
 
 /* software version number */
-#define FDB_SW_VERSION                 "1.0.00"
-#define FDB_SW_VERSION_NUM             0x10000
+#define FDB_SW_VERSION                 "1.0.99"
+#define FDB_SW_VERSION_NUM             0x10099
 
 /* the KV max name length must less then it */
 #ifndef FDB_KV_NAME_MAX
@@ -37,6 +37,10 @@ extern "C" {
 
 #if (FDB_KV_CACHE_TABLE_SIZE > 0) && (FDB_SECTOR_CACHE_TABLE_SIZE > 0)
 #define FDB_KV_USING_CACHE
+#endif
+
+#if defined(FDB_USING_FILE_LIBC_MODE) || defined(FDB_USING_FILE_POSIX_MODE)
+#define FDB_USING_FILE_MODE
 #endif
 
 /* log function. default FDB_PRINT macro is printf() */
@@ -65,6 +69,8 @@ if (!(EXPR))                                                                  \
 #define FDB_KVDB_CTRL_GET_SEC_SIZE     0x1             /**< get sector size control command */
 #define FDB_KVDB_CTRL_SET_LOCK         0x2             /**< set lock function control command */
 #define FDB_KVDB_CTRL_SET_UNLOCK       0x3             /**< set unlock function control command */
+#define FDB_KVDB_CTRL_SET_FILE_MODE    0x9             /**< set file mode control command */
+#define FDB_KVDB_CTRL_SET_MAX_SIZE     0xA             /**< set database max size in file mode control command */
 
 #define FDB_TSDB_CTRL_SET_SEC_SIZE     0x0             /**< set sector size control command */
 #define FDB_TSDB_CTRL_GET_SEC_SIZE     0x1             /**< get sector size control command */
@@ -73,6 +79,8 @@ if (!(EXPR))                                                                  \
 #define FDB_TSDB_CTRL_SET_ROLLOVER     0x4             /**< set rollover control command */
 #define FDB_TSDB_CTRL_GET_ROLLOVER     0x5             /**< get rollover control command */
 #define FDB_TSDB_CTRL_GET_LAST_TIME    0x6             /**< get last save time control command */
+#define FDB_TSDB_CTRL_SET_FILE_MODE    0x9             /**< set file mode control command */
+#define FDB_TSDB_CTRL_SET_MAX_SIZE     0xA             /**< set database max size in file mode control command */
 
 typedef time_t fdb_time_t;
 #ifdef FDB_USING_TIMESTAMP_64BIT
@@ -238,9 +246,22 @@ typedef struct fdb_db *fdb_db_t;
 struct fdb_db {
     const char *name;                            /**< database name */
     fdb_db_type type;                            /**< database type */
-    const struct fal_partition *part;            /**< flash partition */
+    union {
+#ifdef FDB_USING_FAL_MODE
+        const struct fal_partition *part;        /**< flash partition for saving database */
+#endif
+#ifdef FDB_USING_FILE_MODE
+        const char *dir;                         /**< directory path for saving database */
+#endif
+    } storage;
     uint32_t sec_size;                           /**< flash section size. It's a multiple of block size */
+    uint32_t max_size;                           /**< database max size. It's a multiple of section size */
     bool init_ok;                                /**< initialized successfully */
+    bool file_mode;                              /**< is file mode, default is false */
+#ifdef FDB_USING_FILE_MODE
+    void *cur_file;                              /**< current file object */
+    uint32_t cur_sec;                            /**< current operate sector address  */
+#endif
     void (*lock)(fdb_db_t db);                   /**< lock the database operate */
     void (*unlock)(fdb_db_t db);                 /**< unlock the database operate */
 
@@ -275,7 +296,7 @@ struct fdb_tsdb {
     struct tsdb_sec_info cur_sec;                /**< current using sector */
     fdb_time_t last_time;                        /**< last TSL timestamp */
     fdb_get_time get_time;                       /**< the current timestamp get function */
-    size_t max_len;                              /**< the max log length */
+    size_t max_len;                              /**< the maximum length of each log */
     uint32_t oldest_addr;                        /**< the oldest sector start address */
     bool rollover;                               /**< the oldest data will rollover by newest data, default is true */
 
