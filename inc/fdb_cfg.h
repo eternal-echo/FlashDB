@@ -21,7 +21,6 @@
 #include <dfs_posix.h>
 #endif
 
-extern void rt_kprintf(const char *fmt, ...);
 #define FDB_PRINT(...)             rt_kprintf(__VA_ARGS__)
 
 
