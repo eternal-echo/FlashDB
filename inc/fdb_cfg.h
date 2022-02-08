@@ -18,10 +18,16 @@
 
 #include <rtthread.h>
 #ifdef RT_USING_DFS
+
+#if RTTHREAD_VERSION >= 40100
+#include <sys/stat.h>
+#include <sys/statfs.h>
+#include <unistd.h>
+#else // RTTHREAD_VERSION < 40100
 #include <dfs_posix.h>
-#endif
+#endif // RTTHREAD_VERSION
+#endif // RT_USING_DFS
 
-#define FDB_PRINT(...)             rt_kprintf(__VA_ARGS__)
-
+#define FDB_PRINT(...) rt_kprintf(__VA_ARGS__)
 
 #endif /* _FDB_CFG_H_ */

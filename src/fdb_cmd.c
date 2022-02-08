@@ -13,6 +13,7 @@
 
 #include <flashdb.h>
 #include <rtthread.h>
+#include <string.h>
 
 #if defined(RT_USING_FINSH) && defined(FINSH_USING_MSH) && defined(FDB_USING_KVDB)
 #include <finsh.h>
