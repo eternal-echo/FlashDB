@@ -17,16 +17,16 @@
 /* more configuration macro is in rtconfig.h */
 
 #include <rtthread.h>
-#ifdef RT_USING_DFS
 
-#if RTTHREAD_VERSION >= 40100
+#ifdef RT_USING_DFS
+#if RT_VER_NUM >= 0x40100
 #include <sys/stat.h>
 #include <sys/statfs.h>
 #include <unistd.h>
-#else // RTTHREAD_VERSION < 40100
+#else
 #include <dfs_posix.h>
-#endif // RTTHREAD_VERSION
-#endif // RT_USING_DFS
+#endif /* RT_VER_NUM >= 0x40100 */
+#endif /* RT_USING_DFS */
 
 #define FDB_PRINT(...) rt_kprintf(__VA_ARGS__)
 
