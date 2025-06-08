@@ -1,0 +1,220 @@
+<mxfile host="65bd71144e" pages="2">
+    <diagram id="j37NsFEOeH3ce_GCPu2z" name="FlashDB关键特性">
+        <mxGraphModel dx="1835" dy="-542" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--1" value="KV查找流程详解" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontStyle=1;fillColor=#D5E8D4;strokeColor=#0288d1;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="1380" width="1000" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--2" value="1. 计算Key的CRC32&lt;br/&gt;name_crc = CRC32(key) &amp;gt;&amp;gt; 16&amp;nbsp;&lt;div&gt;例: CRC32(&quot;wifi_ssid&quot;) = 0x12345678&lt;br/&gt;name_crc = 0x1234&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e3f2fd;strokeColor=#1976d2;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="1440" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--3" value="2. 在KV缓存表中查找&amp;nbsp;&lt;div&gt;遍历64个缓存槽位&amp;nbsp;&lt;/div&gt;&lt;div&gt;比较name_crc&amp;nbsp;&lt;/div&gt;&lt;div&gt;缓存命中: 直接返回地址&amp;nbsp;&lt;/div&gt;&lt;div&gt;缓存未命中: 进入步骤3&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#f3e5f5;strokeColor=#7b1fa2;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="1440" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--4" value="3. Flash遍历查找&amp;nbsp;&lt;div&gt;从当前使用扇区开始&amp;nbsp;&lt;/div&gt;&lt;div&gt;逐个读取KV节点头部&amp;nbsp;&lt;/div&gt;&lt;div&gt;检查Magic和Status&amp;nbsp;&lt;/div&gt;&lt;div&gt;比较Key名称&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff3e0;strokeColor=#f57c00;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="1440" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--5" value="4. 更新缓存表&lt;br/&gt;找到有效KV后:&amp;nbsp;&lt;div&gt;• 更新KV缓存表&amp;nbsp;&lt;/div&gt;&lt;div&gt;• 增加active计数&amp;nbsp;&lt;/div&gt;&lt;div&gt;• LRU替换策略&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e8f5e8;strokeColor=#4caf50;" parent="1" vertex="1">
+                    <mxGeometry x="940" y="1440" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--6" value="" style="endArrow=classic;html=1;strokeColor=#1976d2;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="440" y="1480" as="sourcePoint"/>
+                        <mxPoint x="460" y="1480" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--7" value="" style="endArrow=classic;html=1;strokeColor=#7b1fa2;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="680" y="1480" as="sourcePoint"/>
+                        <mxPoint x="700" y="1480" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--8" value="" style="endArrow=classic;html=1;strokeColor=#f57c00;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="920" y="1480" as="sourcePoint"/>
+                        <mxPoint x="940" y="1480" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--9" value="缓存命中" style="endArrow=classicThin;html=1;strokeColor=#4caf50;strokeWidth=3;edgeStyle=orthogonalEdgeStyle;entryX=0.25;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;endFill=1;" parent="1" source="Y5KhsOYXujg4SMw_t8r--3" target="Y5KhsOYXujg4SMw_t8r--5" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="570" y="1430" as="sourcePoint"/>
+                        <mxPoint x="940" y="1440" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="570" y="1420"/>
+                            <mxPoint x="995" y="1420"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--10" value="垃圾回收(GC)机制详解" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontStyle=1;fillColor=none;strokeColor=#7b1fa2;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="1560" width="610" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--11" value="GC触发条件:&amp;#xa;• 当前扇区剩余空间 &lt; 待写入KV大小&amp;#xa;• 写入操作失败&amp;#xa;• 扇区状态为FULL" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#f3e5f5;strokeColor=#7b1fa2;" parent="1" vertex="1">
+                    <mxGeometry x="210" y="1600" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--12" value="GC执行过程:&amp;nbsp;&lt;div&gt;1. 选择空闲扇区作为目标&amp;nbsp;&lt;/div&gt;&lt;div&gt;2. 遍历源扇区的所有KV&amp;nbsp;&lt;/div&gt;&lt;div&gt;3. 复制状态为WRITE的有效KV&amp;nbsp;&lt;/div&gt;&lt;div&gt;4. 跳过DELETED的无效KV&amp;nbsp;&lt;/div&gt;&lt;div&gt;5. 更新扇区缓存表&amp;nbsp;&lt;/div&gt;&lt;div&gt;6. 擦除源扇区&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#f3e5f5;strokeColor=#7b1fa2;" parent="1" vertex="1">
+                    <mxGeometry x="405" y="1600" width="200" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--13" value="GC收益:&amp;nbsp;&lt;div&gt;• 回收被删除KV的空间&amp;nbsp;&lt;/div&gt;&lt;div&gt;• 合并碎片化空间&amp;nbsp;&lt;/div&gt;&lt;div&gt;• 实现磨损均衡&amp;nbsp;&lt;/div&gt;&lt;div&gt;• 维护数据完整性&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#f3e5f5;strokeColor=#7b1fa2;" parent="1" vertex="1">
+                    <mxGeometry x="620" y="1600" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--14" value="掉电保护与数据一致性" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontStyle=1;fillColor=none;strokeColor=#d32f2f;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="830" y="1560" width="410" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--15" value="原子写入操作:&amp;nbsp;&lt;div&gt;1. 预写入状态 (PRE_WRITE)&amp;nbsp;&lt;/div&gt;&lt;div&gt;2. 写入完整数据&amp;nbsp;&lt;/div&gt;&lt;div&gt;3. 更新状态为 WRITE&amp;nbsp;&lt;/div&gt;&lt;div&gt;4. 任何中断都可恢复&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffebee;strokeColor=#d32f2f;" parent="1" vertex="1">
+                    <mxGeometry x="840" y="1600" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--16" value="启动恢复检查:&amp;nbsp;&lt;div&gt;• 检查所有扇区Magic&amp;nbsp;&lt;/div&gt;&lt;div&gt;• 验证KV节点CRC32&amp;nbsp;&lt;/div&gt;&lt;div&gt;• 清理损坏的数据&amp;nbsp;&lt;/div&gt;&lt;div&gt;• 重建缓存表&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffebee;strokeColor=#d32f2f;" parent="1" vertex="1">
+                    <mxGeometry x="1030" y="1600" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--17" value="磨损均衡策略" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontStyle=1;fillColor=none;strokeColor=#f57c00;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="1250" y="1560" width="420" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--18" value="均衡策略:&amp;nbsp;&lt;div&gt;• 扇区轮转分配&amp;nbsp;&lt;/div&gt;&lt;div&gt;• 优先使用空扇区&amp;nbsp;&lt;/div&gt;&lt;div&gt;• 避免热点扇区&amp;nbsp;&lt;/div&gt;&lt;div&gt;• GC触发扇区迁移&amp;nbsp;&lt;/div&gt;&lt;div&gt;• 延长Flash寿命&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff3e0;strokeColor=#f57c00;" parent="1" vertex="1">
+                    <mxGeometry x="1260" y="1600" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="Y5KhsOYXujg4SMw_t8r--19" value="状态图例:&amp;nbsp;&lt;div&gt;🟢 EMPTY - 空扇区&amp;nbsp;&lt;/div&gt;&lt;div&gt;🟡 USING - 使用中&amp;nbsp;&lt;/div&gt;&lt;div&gt;🔴 FULL - 已满&amp;nbsp;&lt;/div&gt;&lt;div&gt;🟦 WRITE - 有效KV&amp;nbsp;&lt;/div&gt;&lt;div&gt;🟥 DELETED - 已删除&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#f5f5f5;strokeColor=#666666;" parent="1" vertex="1">
+                    <mxGeometry x="1480" y="1600" width="160" height="100" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="flashdb-detailed-layout" name="FlashDB详细Flash布局">
+        <mxGraphModel dx="246" dy="307" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="1800" math="0" shadow="0">
+            <root>
+                <mxCell id="layout-0"/>
+                <mxCell id="layout-1" parent="layout-0"/>
+                <mxCell id="flashdb-layout-title" value="FlashDB 完整系统架构与Flash分区布局" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontStyle=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="layout-1" vertex="1">
+                    <mxGeometry x="50" y="20" width="870" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="memory-cache-title" value="内存中的缓存表结构" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontStyle=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="layout-1" vertex="1">
+                    <mxGeometry x="50" y="80" width="500" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-cache-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="layout-1" vertex="1">
+                    <mxGeometry x="50" y="130" width="240" height="270" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-cache-title" value="KV缓存表 (64项)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#9673a6;fontColor=#ffffff;" parent="layout-1" vertex="1">
+                    <mxGeometry x="60" y="140" width="220" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-cache-struct" value="struct kv_cache_node {&amp;nbsp;&lt;div&gt;&amp;nbsp;uint16_t name_crc;  // CRC32低16位&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp;uint16_t active;    // 访问活跃度&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp;uint32_t addr;      // KV节点地址&amp;nbsp;&lt;/div&gt;&lt;div&gt;};&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffff;strokeColor=#9673a6;align=left;" parent="layout-1" vertex="1">
+                    <mxGeometry x="60" y="170" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="cache-entry-0" value="[0] CRC:0x1234 Active:100 Addr:0x8000" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#36393d;" parent="layout-1" vertex="1">
+                    <mxGeometry x="60" y="260" width="220" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="cache-entry-1" value="[1] CRC:0x5678 Active:50  Addr:0x8080" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#36393d;" parent="layout-1" vertex="1">
+                    <mxGeometry x="60" y="280" width="220" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="cache-entry-2" value="[2] CRC:0x9ABC Active:200 Addr:0x8120" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#36393d;" parent="layout-1" vertex="1">
+                    <mxGeometry x="60" y="300" width="220" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="cache-dots" value="..." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="layout-1" vertex="1">
+                    <mxGeometry x="170" y="320" width="20" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="cache-entry-63" value="[63] 空闲槽位" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f8f8f8;strokeColor=#36393d;dashed=1;" parent="layout-1" vertex="1">
+                    <mxGeometry x="60" y="340" width="220" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector-cache-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="layout-1" vertex="1">
+                    <mxGeometry x="310" y="130" width="240" height="270" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector-cache-title" value="扇区缓存表 (8项)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#d6b656;fontColor=#ffffff;" parent="layout-1" vertex="1">
+                    <mxGeometry x="320" y="140" width="220" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector-cache-struct" value="struct kvdb_sec_info {&amp;nbsp;&lt;div&gt;&amp;nbsp;bool check_ok;       // 扇区头检查&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp;store_status store;  // 存储状态&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp;dirty_status dirty;  // 脏状态&lt;/div&gt;&lt;div&gt;&amp;nbsp;uint32_t addr;       // 扇区地址&lt;/div&gt;&lt;div&gt;&amp;nbsp;uint32_t magic;      // 魔数EF40&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp;size_t remain;       // 剩余空间&lt;/div&gt;&lt;div&gt;&amp;nbsp;uint32_t empty_kv;   // 下个空KV地址&lt;/div&gt;&lt;div&gt;&amp;nbsp;};&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#ffffff;strokeColor=#d6b656;align=left;" parent="layout-1" vertex="1">
+                    <mxGeometry x="320" y="170" width="220" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-cache-0" value="[0] Addr:0x8000 Status:USING Remain:2048B" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#d5e8d4;strokeColor=#82b366;" parent="layout-1" vertex="1">
+                    <mxGeometry x="320" y="290" width="220" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-cache-1" value="[1] Addr:0xC000 Status:FULL  Remain:0B" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f8cecc;strokeColor=#b85450;" parent="layout-1" vertex="1">
+                    <mxGeometry x="320" y="310" width="220" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-cache-dots" value="[2-7] 空闲槽位" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f8f8f8;strokeColor=#36393d;dashed=1;" parent="layout-1" vertex="1">
+                    <mxGeometry x="320" y="330" width="220" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="flash-title" value="Flash物理分区布局 (真实扇区状态)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontStyle=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="layout-1" vertex="1">
+                    <mxGeometry x="50" y="430" width="870" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="partition-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" parent="layout-1" vertex="1">
+                    <mxGeometry x="50" y="480" width="870" height="430" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector0-header" value="Sector 0 (0x8000-0xBFFF) - EMPTY" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="500" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector0-header-detail" value="Header (16B)&amp;#xa;Magic: 0xEF40&amp;#xa;Status: EMPTY(0xFF)&amp;#xa;Combined: 0xFFFFFFFF" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffff;strokeColor=#82b366;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="535" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector0-data" value="Data Area: 全部为0xFF&amp;nbsp;&lt;div&gt;Remain: 4080B&amp;nbsp;&lt;/div&gt;&lt;div&gt;Next Empty KV: 0x8010&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="600" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector0-status" value="状态: 空扇区&amp;#xa;可直接写入" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1f5fe;strokeColor=#01579b;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="655" width="200" height="35" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector1-header" value="Sector 1 (0xC000-0xFFFF) - USING" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="layout-1" vertex="1">
+                    <mxGeometry x="290" y="500" width="600" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector1-header-detail" value="Header (16B): Magic:0xEF40, Status:USING(0x00), Combined:0xFFFFFFFF" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffff;strokeColor=#d6b656;" parent="layout-1" vertex="1">
+                    <mxGeometry x="290" y="535" width="600" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv1-detail" value="KV1: wifi_ssid&amp;nbsp;&lt;div&gt;Addr: 0xC010&amp;nbsp;&lt;/div&gt;&lt;div&gt;Magic: 0x4B563430&amp;nbsp;&lt;/div&gt;&lt;div&gt;Status: WRITE(0x00)&amp;nbsp;&lt;/div&gt;&lt;div&gt;Name Len: 8&lt;br/&gt;Value&amp;nbsp;&lt;/div&gt;&lt;div&gt;Len: 12&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#1e88e5;" parent="layout-1" vertex="1">
+                    <mxGeometry x="290" y="565" width="110" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv2-detail" value="KV2: password&amp;nbsp;&lt;div&gt;Addr: 0xC050&amp;nbsp;&lt;/div&gt;&lt;div&gt;Magic: 0x4B563430&amp;nbsp;&lt;/div&gt;&lt;div&gt;Status: WRITE(0x00)&amp;nbsp;&lt;/div&gt;&lt;div&gt;Name Len: 8&amp;nbsp;&lt;/div&gt;&lt;div&gt;Value Len: 16&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#1e88e5;" parent="layout-1" vertex="1">
+                    <mxGeometry x="413" y="565" width="110" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv3-detail" value="KV3:&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;old_config&lt;/span&gt;&lt;div&gt;Addr: 0xC090&amp;nbsp;&lt;div&gt;Magic: 0x4B563430&lt;br&gt;Status: DELETED(0x44)&lt;br&gt;Name Len: 10&lt;br&gt;Value Len: 20&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#ffcdd2;strokeColor=#d32f2f;" parent="layout-1" vertex="1">
+                    <mxGeometry x="535" y="565" width="110" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv4-detail" value="KV4:&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;device_id&lt;/span&gt;&lt;div&gt;Addr: 0xC0D0&amp;nbsp;&lt;/div&gt;&lt;div&gt;Magic: 0x4B563430&amp;nbsp;&lt;/div&gt;&lt;div&gt;Status: WRITE(0x00)&amp;nbsp;&lt;/div&gt;&lt;div&gt;Name Len: 9&amp;nbsp;&lt;/div&gt;&lt;div&gt;Value Len: 32&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#1e88e5;" parent="layout-1" vertex="1">
+                    <mxGeometry x="658" y="565" width="110" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector1-free" value="Free Space&lt;br/&gt;Start: 0xC130&amp;nbsp;&lt;div&gt;Remain: 2768B&lt;br/&gt;Status: 0xFF&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#ffffff;strokeColor=#666666;dashed=1;" parent="layout-1" vertex="1">
+                    <mxGeometry x="780" y="565" width="110" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector1-status" value="状态: 使用中&amp;#xa;写入指针: 0xC130&amp;#xa;剩余空间: 2768B" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e8f5e8;strokeColor=#4caf50;" parent="layout-1" vertex="1">
+                    <mxGeometry x="290" y="655" width="600" height="35" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector2-header" value="Sector 2 (0x10000-0x13FFF) - FULL" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="710" width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector2-detail" value="Header: Magic:0xEF41, Status:FULL(0x01), Combined:0x00000001&amp;nbsp;&lt;div&gt;数据区完全填满: 包含8个有效KV + 3个已删除KV&amp;nbsp;&lt;/div&gt;&lt;div&gt;Remain: 0B, 无法写入新数据&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffff;strokeColor=#b85450;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="745" width="300" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector2-kvs" value="KV数据区域&amp;#xa;(已满, 需要GC)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffebee;strokeColor=#b85450;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="815" width="300" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector2-status" value="状态: 已满&amp;#xa;触发GC条件" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffcdd2;strokeColor=#d32f2f;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="865" width="300" height="35" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector3-header" value="Sector 3 (0x14000-0x17FFF) - GC准备" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="layout-1" vertex="1">
+                    <mxGeometry x="423" y="710" width="237" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector3-detail" value="GC目标扇区&amp;#xa;将接收Sector2的有效KV&amp;#xa;Status: EMPTY → USING" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffff;strokeColor=#9673a6;" parent="layout-1" vertex="1">
+                    <mxGeometry x="423" y="745" width="237" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="gc-arrow" value="" style="endArrow=classic;html=1;strokeColor=#9673a6;strokeWidth=3;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="layout-1" source="sector2-detail" target="sector3-detail" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="370" y="780" as="sourcePoint"/>
+                        <mxPoint x="390" y="780" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="gc-label" value="GC迁移" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#9673a6;fontStyle=1;" parent="layout-1" vertex="1">
+                    <mxGeometry x="363" y="755" width="60" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector4-header" value="Sector 4+ (备用扇区)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#f5f5f5;strokeColor=#666666;" parent="layout-1" vertex="1">
+                    <mxGeometry x="683" y="710" width="150" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector4-detail" value="备用扇区池&amp;#xa;用于磨损均衡&amp;#xa;轮转使用" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffff;strokeColor=#666666;" parent="layout-1" vertex="1">
+                    <mxGeometry x="683" y="745" width="150" height="65" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-structure-title" value="KV节点内部结构" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontStyle=1;fillColor=#ff7043;strokeColor=#d84315;" parent="layout-1" vertex="1">
+                    <mxGeometry x="570" y="80" width="250" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-node-structure" value="KV节点格式 (每个节点对齐到FDB_WRITE_GRAN):&lt;br&gt;+0x00:&amp;nbsp;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Magic Word (4B)     - 0x4B563430 (&quot;KV40&quot;)&lt;br&gt;+0x04:&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Node Length (4B)    - 整个节点长度&lt;br&gt;+0x08:&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Name Length (1B)    - Key名称长度&lt;br&gt;+0x09:&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Status (1B)         - FDB_KV_WRITE/DELETED等&lt;br&gt;+0x0A:&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Reserved (2B)       - 保留字段&lt;br&gt;+0x0C:&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Value Length (4B)   - Value数据长度&lt;br&gt;+0x10:&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Key Name (Variable) - Key名称字符串&lt;br&gt;+0x??:&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Value Data (Variable) - Value数据&lt;br&gt;+0x??:&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;CRC32 (4B)          - 整个节点的CRC32校验&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffff;strokeColor=#d84315;align=left;arcSize=4;" parent="layout-1" vertex="1">
+                    <mxGeometry x="570" y="130" width="250" height="270" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

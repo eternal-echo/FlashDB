@@ -1,0 +1,24 @@
+<mxfile host="65bd71144e">
+    <diagram id="j37NsFEOeH3ce_GCPu2z" name="Page-1">
+        <mxGraphModel dx="557" dy="307" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="flashdb-detailed-layout" name="FlashDB详细Flash布局">
+        <mxGraphModel dx="703" dy="877" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1400" math="0" shadow="0">
+            <root>
+                <mxCell id="layout-0"/>
+                <mxCell id="layout-1" parent="layout-0"/>
+                <mxCell id="flashdb-layout-title" value="FlashDB 详细Flash分区布局与查找机制" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontStyle=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="layout-1" vertex="1">
+                    <mxGeometry x="700" y="20" width="600" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="flash-title" value="Flash物理分区布局" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="layout-1" vertex="1">
+                    <mxGeometry x="50" y="80" width="1900" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

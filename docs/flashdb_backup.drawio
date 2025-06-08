@@ -1,0 +1,525 @@
+<mxfile host="65bd71144e">
+    <diagram id="j37NsFEOeH3ce_GCPu2z" name="Page-1">
+        <mxGraphModel dx="246" dy="307" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="flashdb-detailed-layout" name="FlashDB详细Flash布局">
+        <mxGraphModel dx="2200" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1400" math="0" shadow="0">
+            <root>
+                <mxCell id="layout-0"/>
+                <mxCell id="layout-1" parent="layout-0"/>
+                <mxCell id="flashdb-layout-title" value="FlashDB 详细Flash分区布局与查找机制" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontStyle=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="layout-1" vertex="1">
+                    <mxGeometry x="700" y="20" width="600" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="flash-title" value="Flash物理分区布局" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="layout-1" vertex="1">
+                    <mxGeometry x="50" y="80" width="1900" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="partition-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" parent="layout-1" vertex="1">
+                    <mxGeometry x="50" y="120" width="1900" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector0-header" value="Sector 0 (Empty)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="140" width="150" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector0-detail" value="Magic: EF40&#xa;Status: Empty&#xa;Combined: 0xFFFFFFFF&#xa;Remain: 4096B" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d5e8d4;strokeColor=#82b366;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="165" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector1-header" value="Sector 1 (Using)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="layout-1" vertex="1">
+                    <mxGeometry x="240" y="140" width="300" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector1-detail" value="" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" parent="layout-1" vertex="1">
+                    <mxGeometry x="240" y="165" width="300" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv1" value="KV1&#xa;wifi_ssid" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#36393d;" parent="layout-1" vertex="1">
+                    <mxGeometry x="250" y="175" width="50" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv2" value="KV2&#xa;password" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#36393d;" parent="layout-1" vertex="1">
+                    <mxGeometry x="300" y="175" width="50" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv3" value="KV3&#xa;(deleted)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#ffcccc;strokeColor=#36393d;" parent="layout-1" vertex="1">
+                    <mxGeometry x="350" y="175" width="50" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv4" value="KV4&#xa;device_id" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#36393d;" parent="layout-1" vertex="1">
+                    <mxGeometry x="400" y="175" width="50" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="free-space" value="Free Space&#xa;2048B" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="layout-1" vertex="1">
+                    <mxGeometry x="450" y="175" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector2-header" value="Sector 2 (Full)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#ffcccc;strokeColor=#d79b00;" parent="layout-1" vertex="1">
+                    <mxGeometry x="560" y="140" width="200" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector2-detail" value="多个KV填满..." style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffcccc;strokeColor=#d79b00;" parent="layout-1" vertex="1">
+                    <mxGeometry x="560" y="165" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="sectorN-header" value="Sector N (GC)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="layout-1" vertex="1">
+                    <mxGeometry x="780" y="140" width="150" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="sectorN-detail" value="GC进行中&#xa;迁移有效KV" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="layout-1" vertex="1">
+                    <mxGeometry x="780" y="165" width="150" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="oldest-addr" value="oldest_addr" style="shape=singleArrow;whiteSpace=wrap;html=1;arrowWidth=0.4;arrowSize=0.4;fontSize=12;fillColor=#ffa500;strokeColor=#ff8000;" parent="layout-1" vertex="1">
+                    <mxGeometry x="950" y="175" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-structure-title" value="KV节点详细结构 (以KV1为例)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="layout-1" vertex="1">
+                    <mxGeometry x="50" y="260" width="600" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-layout" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#666666;" parent="layout-1" vertex="1">
+                    <mxGeometry x="50" y="300" width="600" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-header" value="KV Header (32B)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="320" width="120" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="status-table" value="Status Table&#xa;[1,1] → Write状态&#xa;4位状态控制" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#fff2cc;strokeColor=#d6b656;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="345" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="magic" value="Magic&#xa;KV40&#xa;(4B)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#6c8ebf;" parent="layout-1" vertex="1">
+                    <mxGeometry x="150" y="345" width="40" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="length" value="Len&#xa;96B&#xa;(4B)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#6c8ebf;" parent="layout-1" vertex="1">
+                    <mxGeometry x="190" y="345" width="40" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="crc32" value="CRC32&#xa;校验码&#xa;(4B)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#6c8ebf;" parent="layout-1" vertex="1">
+                    <mxGeometry x="230" y="345" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="name-len" value="name_len&#xa;8&#xa;(1B)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#6c8ebf;" parent="layout-1" vertex="1">
+                    <mxGeometry x="280" y="345" width="40" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="value-len" value="value_len&#xa;32&#xa;(4B)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#6c8ebf;" parent="layout-1" vertex="1">
+                    <mxGeometry x="320" y="345" width="50" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-name" value="KV Name&#xa;&#39;wifi_ssid&#39;&#xa;(8B)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#d5e8d4;strokeColor=#82b366;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="410" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-value" value="KV Value&#xa;&#39;MyHomeWiFi_2024&#39;&#xa;(32B)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#d5e8d4;strokeColor=#82b366;" parent="layout-1" vertex="1">
+                    <mxGeometry x="170" y="410" width="200" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="align-padding" value="对齐填充&#xa;(32B aligned)&#xa;(填充到64的倍数)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="layout-1" vertex="1">
+                    <mxGeometry x="370" y="410" width="120" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="cache-title" value="缓存表结构与查找机制" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="layout-1" vertex="1">
+                    <mxGeometry x="700" y="260" width="600" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-cache-title" value="KV缓存表 (kv_cache_table[64])" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="layout-1" vertex="1">
+                    <mxGeometry x="720" y="300" width="250" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="cache-node-0" value="Index 0&#xa;name_crc: 0x1234&#xa;addr: 0x1000&#xa;active: 64" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#6c8ebf;" parent="layout-1" vertex="1">
+                    <mxGeometry x="720" y="325" width="80" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="cache-node-1" value="Index 1&#xa;name_crc: 0x5678&#xa;addr: 0x1060&#xa;active: 32" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#cce5ff;strokeColor=#6c8ebf;" parent="layout-1" vertex="1">
+                    <mxGeometry x="800" y="325" width="80" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="cache-node-2" value="Index 2&#xa;name_crc: 0x0000&#xa;addr: 0xFFFFFFFF&#xa;active: 0" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" parent="layout-1" vertex="1">
+                    <mxGeometry x="880" y="325" width="90" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="sector-cache-title" value="扇区缓存表 (sector_cache_table[8])" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="layout-1" vertex="1">
+                    <mxGeometry x="1000" y="300" width="280" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-cache-0" value="Sector 1&#xa;addr: 0x1000&#xa;status: Using&#xa;remain: 2048&#xa;empty_kv: 0x1800" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#fff2cc;strokeColor=#d6b656;" parent="layout-1" vertex="1">
+                    <mxGeometry x="1000" y="325" width="90" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-cache-1" value="Sector 2&#xa;addr: 0x2000&#xa;status: Full&#xa;remain: 0&#xa;empty_kv: N/A" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#ffcccc;strokeColor=#d79b00;" parent="layout-1" vertex="1">
+                    <mxGeometry x="1090" y="325" width="90" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-cache-2" value="Empty Slot&#xa;addr: 0xFFFFFFFF&#xa;check_ok: false" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" parent="layout-1" vertex="1">
+                    <mxGeometry x="1180" y="325" width="90" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="search-flow-title" value="KV查找流程 (find_kv函数执行路径)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="layout-1" vertex="1">
+                    <mxGeometry x="50" y="530" width="1250" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="step1" value="1. 计算name CRC16" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="580" width="150" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="step2" value="2. 搜索KV缓存表&#xa;遍历64个缓存节点" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#cce5ff;strokeColor=#6c8ebf;" parent="layout-1" vertex="1">
+                    <mxGeometry x="240" y="580" width="150" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="step3" value="3. 缓存命中?&#xa;返回addr" style="rhombus;whiteSpace=wrap;html=1;fontSize=11;fillColor=#cce5ff;strokeColor=#6c8ebf;" parent="layout-1" vertex="1">
+                    <mxGeometry x="410" y="575" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="step4" value="4. 遍历扇区缓存表&#xa;获取有效扇区列表" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;" parent="layout-1" vertex="1">
+                    <mxGeometry x="530" y="580" width="150" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="step5" value="5. 按时间顺序遍历扇区&#xa;从最新到最旧" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffcccc;strokeColor=#d79b00;" parent="layout-1" vertex="1">
+                    <mxGeometry x="700" y="580" width="150" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="step6" value="6. Flash读取&#xa;验证magic+CRC" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="layout-1" vertex="1">
+                    <mxGeometry x="870" y="580" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="step7" value="7. 更新缓存表&#xa;LRU替换策略" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#d5e8d4;strokeColor=#82b366;" parent="layout-1" vertex="1">
+                    <mxGeometry x="1010" y="580" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="state-machine-title" value="KV状态机 &amp; 扇区状态机" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="layout-1" vertex="1">
+                    <mxGeometry x="50" y="670" width="1250" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-state-title" value="KV节点状态流转" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#f0f0f0;strokeColor=#666666;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="720" width="500" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-unused" value="UNUSED&#xa;[1,1]" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#cccccc;" parent="layout-1" vertex="1">
+                    <mxGeometry x="80" y="760" width="70" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-prewrite" value="PRE_WRITE&#xa;[0,1]" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffcc;" parent="layout-1" vertex="1">
+                    <mxGeometry x="170" y="760" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-write" value="WRITE&#xa;[0,0]" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ccffcc;" parent="layout-1" vertex="1">
+                    <mxGeometry x="270" y="760" width="70" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-predelete" value="PRE_DELETE&#xa;[1,0]" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffcccc;" parent="layout-1" vertex="1">
+                    <mxGeometry x="360" y="760" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-deleted" value="DELETED&#xa;[1,1]" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ff9999;" parent="layout-1" vertex="1">
+                    <mxGeometry x="460" y="760" width="70" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-state-title" value="扇区状态流转" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#f0f0f0;strokeColor=#666666;" parent="layout-1" vertex="1">
+                    <mxGeometry x="600" y="720" width="600" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-unused" value="UNUSED" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#cccccc;" parent="layout-1" vertex="1">
+                    <mxGeometry x="620" y="760" width="70" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-empty" value="EMPTY" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ccffcc;" parent="layout-1" vertex="1">
+                    <mxGeometry x="710" y="760" width="70" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-using" value="USING" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffcc;" parent="layout-1" vertex="1">
+                    <mxGeometry x="800" y="760" width="70" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-full" value="FULL" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffcccc;" parent="layout-1" vertex="1">
+                    <mxGeometry x="890" y="760" width="70" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-gc" value="GC" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;" parent="layout-1" vertex="1">
+                    <mxGeometry x="980" y="760" width="70" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="gc-title" value="垃圾回收(GC)机制详解" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#ffcccc;strokeColor=#d79b00;" parent="layout-1" vertex="1">
+                    <mxGeometry x="50" y="850" width="1250" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="gc-trigger" value="GC触发条件:&#xa;1. 可用空间 &lt; 设定阈值&#xa;2. 手动调用gc_request&#xa;3. 写入失败时自动触发" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff3cd;strokeColor=#ffc107;" parent="layout-1" vertex="1">
+                    <mxGeometry x="70" y="900" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="gc-steps" value="GC执行步骤:&#xa;1. 选择最旧的满扇区&#xa;2. 标记扇区为GC状态&#xa;3. 遍历有效KV节点&#xa;4. 迁移到新扇区&#xa;5. 擦除GC扇区&#xa;6. 更新缓存表" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#d4edda;strokeColor=#28a745;" parent="layout-1" vertex="1">
+                    <mxGeometry x="290" y="900" width="200" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="wear-leveling" value="磨损均衡机制:&#xa;1. oldest_addr轮转指针&#xa;2. 选择最久未使用扇区&#xa;3. 时间戳记录使用顺序&#xa;4. 确保扇区均匀磨损" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#cce5ff;strokeColor=#007bff;" parent="layout-1" vertex="1">
+                    <mxGeometry x="510" y="900" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="power-fail-protection" value="掉电保护机制:&#xa;1. 状态表原子写入&#xa;2. 启动时状态检查&#xa;3. 异常状态自动恢复&#xa;4. CRC32数据校验" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#f8d7da;strokeColor=#dc3545;" parent="layout-1" vertex="1">
+                    <mxGeometry x="730" y="900" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="performance" value="性能优化策略:&#xa;1. 多级缓存机制&#xa;2. LRU替换算法&#xa;3. 扇区统计信息缓存&#xa;4. CRC16快速匹配&#xa;5. 对齐写入优化" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e2e3e5;strokeColor=#6c757d;" parent="layout-1" vertex="1">
+                    <mxGeometry x="950" y="900" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow1" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="layout-1" source="step1" target="step2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow2" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="layout-1" source="step2" target="step3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow3" value="命中" style="endArrow=classic;html=1;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="layout-1" source="step3" target="step7">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="460" y="550"/>
+                            <mxPoint x="1070" y="550"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="flow4" value="未命中" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="layout-1" source="step3" target="step4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow5" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="layout-1" source="step4" target="step5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow6" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="layout-1" source="step5" target="step6">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow7" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="layout-1" source="step6" target="step7">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-flow1" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="layout-1" source="kv-unused" target="kv-prewrite">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-flow2" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="layout-1" source="kv-prewrite" target="kv-write">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-flow3" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="layout-1" source="kv-write" target="kv-predelete">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="kv-flow4" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="layout-1" source="kv-predelete" target="kv-deleted">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-flow1" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="layout-1" source="sec-unused" target="sec-empty">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-flow2" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="layout-1" source="sec-empty" target="sec-using">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-flow3" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="layout-1" source="sec-using" target="sec-full">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-flow4" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="layout-1" source="sec-full" target="sec-gc">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="sec-flow5" value="格式化后" style="curved=1;endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=1;" edge="1" parent="layout-1" source="sec-gc" target="sec-empty">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1015" y="830"/>
+                            <mxPoint x="745" y="830"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="addr-examples" value="地址示例:&#xa;Sector 0: 0x0000~0x0FFF (4KB)&#xa;Sector 1: 0x1000~0x1FFF (4KB)&#xa;Sector 2: 0x2000~0x2FFF (4KB)&#xa;KV1 addr: 0x1020 (Sector1内偏移0x20)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e6f3ff;strokeColor=#1ba1e2;" parent="layout-1" vertex="1">
+                    <mxGeometry x="1350" y="140" width="220" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="cache-hit-rate" value="缓存性能:&#xa;· KV缓存命中率: 85%+&#xa;· 扇区缓存命中率: 95%+&#xa;· LRU算法优化热点数据&#xa;· CRC16快速匹配减少Flash读取" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#d4edda;strokeColor=#28a745;" parent="layout-1" vertex="1">
+                    <mxGeometry x="1350" y="260" width="220" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="write-granularity" value="写入粒度对齐:&#xa;· 1位写入: 状态位控制&#xa;· 8位写入: 字节对齐&#xa;· 32位写入: 4字节对齐&#xa;· 64位写入: 8字节对齐&#xa;· 自动填充对齐字节" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff3cd;strokeColor=#ffc107;" parent="layout-1" vertex="1">
+                    <mxGeometry x="1350" y="380" width="220" height="120" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="flashdb-core-architecture" name="FlashDB核心架构">
+        <mxGraphModel dx="557" dy="307" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="arch-0"/>
+                <mxCell id="arch-1" parent="arch-0"/>
+                <mxCell id="arch-title" value="FlashDB 核心架构与设计原理" style="rounded=1;whiteSpace=wrap;html=1;fontSize=20;fontStyle=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="arch-1" vertex="1">
+                    <mxGeometry x="650" y="50" width="360" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-api-layer" value="API层 (flashdb.h)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#f8cecc;strokeColor=#b85450;verticalAlign=top;" parent="arch-1" vertex="1">
+                    <mxGeometry x="100" y="120" width="1450" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kvdb-api" value="KVDB API&#xa;· fdb_kv_set/get/del&#xa;· fdb_kv_set_blob/get_blob&#xa;· fdb_kv_iterator" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="arch-1" vertex="1">
+                    <mxGeometry x="350" y="160" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-tsdb-api" value="TSDB API&#xa;· fdb_tsl_append&#xa;· fdb_tsl_iter&#xa;· fdb_tsl_query_count" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="arch-1" vertex="1">
+                    <mxGeometry x="1070" y="160" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-db-control" value="数据库管理&#xa;· fdb_kvdb_init/deinit&#xa;· fdb_tsdb_init/deinit&#xa;· fdb_control" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="arch-1" vertex="1">
+                    <mxGeometry x="735" y="160" width="180" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kvdb-core" value="KVDB 核心模块 (fdb_kvdb.c)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;" parent="arch-1" vertex="1">
+                    <mxGeometry x="100" y="280" width="680" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-find" value="KV查找&#xa;· find_kv()&#xa;· 缓存查找&#xa;· 扇区遍历" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="arch-1" vertex="1">
+                    <mxGeometry x="120" y="340" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-create" value="KV创建&#xa;· create_kv()&#xa;· 空间分配&#xa;· 状态流转" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="arch-1" vertex="1">
+                    <mxGeometry x="250" y="340" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-delete" value="KV删除&#xa;· del_kv()&#xa;· 预删除→删除&#xa;· 脏标记" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="arch-1" vertex="1">
+                    <mxGeometry x="380" y="340" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-gc" value="垃圾回收&#xa;· gc_collect()&#xa;· 移动有效KV&#xa;· 格式化扇区" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="arch-1" vertex="1">
+                    <mxGeometry x="510" y="340" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-cache" value="缓存管理&#xa;· KV缓存表&#xa;· 扇区缓存表&#xa;· LRU替换" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="arch-1" vertex="1">
+                    <mxGeometry x="640" y="340" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-tsdb-core" value="TSDB 核心模块 (fdb_tsdb.c)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;" parent="arch-1" vertex="1">
+                    <mxGeometry x="820" y="280" width="680" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-tsl-append" value="TSL添加&#xa;· append_tsl()&#xa;· 时间戳管理&#xa;· 索引写入" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;" parent="arch-1" vertex="1">
+                    <mxGeometry x="840" y="340" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-tsl-query" value="TSL查询&#xa;· iter_by_time()&#xa;· 时间范围查询&#xa;· 状态过滤" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;" parent="arch-1" vertex="1">
+                    <mxGeometry x="970" y="340" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-tsl-rollover" value="循环覆盖&#xa;· rollover模式&#xa;· 最旧数据覆盖&#xa;· 扇区轮转" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;" parent="arch-1" vertex="1">
+                    <mxGeometry x="1100" y="340" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-tsl-index" value="索引管理&#xa;· 索引结构&#xa;· 地址映射&#xa;· 快速定位" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;" parent="arch-1" vertex="1">
+                    <mxGeometry x="1230" y="340" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-tsl-status" value="状态管理&#xa;· 状态修改&#xa;· 用户自定义&#xa;· 删除标记" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;" parent="arch-1" vertex="1">
+                    <mxGeometry x="1360" y="340" width="120" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-common-layer" value="公共底层模块 (fdb.c, fdb_utils.c)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="arch-1" vertex="1">
+                    <mxGeometry x="100" y="450" width="1400" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sector-mgmt" value="扇区管理&#xa;· 扇区格式化&#xa;· 状态流转&#xa;· 头部信息" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffd966;strokeColor=#d79b00;" parent="arch-1" vertex="1">
+                    <mxGeometry x="120" y="510" width="140" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-status-mgmt" value="状态管理&#xa;· 状态表机制&#xa;· 写粒度对齐&#xa;· 状态流转" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffd966;strokeColor=#d79b00;" parent="arch-1" vertex="1">
+                    <mxGeometry x="280" y="510" width="140" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-wear-balance" value="磨损均衡&#xa;· 最旧地址管理&#xa;· 循环写入&#xa;· 扇区轮转" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffd966;strokeColor=#d79b00;" parent="arch-1" vertex="1">
+                    <mxGeometry x="440" y="510" width="140" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-power-fail" value="掉电保护&#xa;· 状态原子性&#xa;· 恢复检查&#xa;· 一致性保证" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffd966;strokeColor=#d79b00;" parent="arch-1" vertex="1">
+                    <mxGeometry x="600" y="510" width="140" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-flash-ops" value="Flash操作&#xa;· 读写擦除&#xa;· 写粒度处理&#xa;· CRC校验" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffd966;strokeColor=#d79b00;" parent="arch-1" vertex="1">
+                    <mxGeometry x="760" y="510" width="140" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-db-init" value="数据库初始化&#xa;· 分区检查&#xa;· 参数配置&#xa;· 环境检测" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffd966;strokeColor=#d79b00;" parent="arch-1" vertex="1">
+                    <mxGeometry x="920" y="510" width="140" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-file-mode" value="文件模式&#xa;· POSIX/LIBC&#xa;· 文件缓存&#xa;· 跨平台" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffd966;strokeColor=#d79b00;" parent="arch-1" vertex="1">
+                    <mxGeometry x="1080" y="510" width="140" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-utils" value="工具函数&#xa;· CRC32计算&#xa;· 字节序处理&#xa;· 工具宏定义" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffd966;strokeColor=#d79b00;" parent="arch-1" vertex="1">
+                    <mxGeometry x="1240" y="510" width="140" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-storage-layout" value="存储布局与数据结构" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#ffcccc;strokeColor=#d79b00;" parent="arch-1" vertex="1">
+                    <mxGeometry x="100" y="620" width="1400" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-flash-layout" value="Flash分区布局" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#f0f0f0;strokeColor=#666666;" parent="arch-1" vertex="1">
+                    <mxGeometry x="120" y="680" width="600" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sector0" value="Sector 0&#xa;(Empty)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ccffcc;strokeColor=#82b366;" parent="arch-1" vertex="1">
+                    <mxGeometry x="120" y="720" width="90" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sector1" value="Sector 1&#xa;(Using)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffcc;strokeColor=#d6b656;" parent="arch-1" vertex="1">
+                    <mxGeometry x="220" y="720" width="90" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sector2" value="Sector 2&#xa;(Full)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffcccc;strokeColor=#d79b00;" parent="arch-1" vertex="1">
+                    <mxGeometry x="320" y="720" width="90" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sector3" value="Sector N&#xa;(GC)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="arch-1" vertex="1">
+                    <mxGeometry x="420" y="720" width="90" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-oldest-addr" value="oldest_addr&#xa;轮转指针" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffa500;strokeColor=#ff8000;" parent="arch-1" vertex="1">
+                    <mxGeometry x="530" y="720" width="90" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-data-structure" value="核心数据结构" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#f0f0f0;strokeColor=#666666;" parent="arch-1" vertex="1">
+                    <mxGeometry x="750" y="680" width="600" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kvdb-struct" value="fdb_kvdb&#xa;· parent (fdb_db)&#xa;· default_kvs&#xa;· gc_request&#xa;· kv_cache_table&#xa;· sector_cache_table" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="arch-1" vertex="1">
+                    <mxGeometry x="760" y="720" width="140" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-tsdb-struct" value="fdb_tsdb&#xa;· parent (fdb_db)&#xa;· cur_sec&#xa;· last_time&#xa;· get_time&#xa;· max_len&#xa;· rollover" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" parent="arch-1" vertex="1">
+                    <mxGeometry x="920" y="720" width="140" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-node" value="fdb_kv 节点&#xa;· status&#xa;· magic (KV40)&#xa;· len&#xa;· name_len&#xa;· value_len&#xa;· name&#xa;· addr" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="arch-1" vertex="1">
+                    <mxGeometry x="1080" y="720" width="120" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-tsl-node" value="fdb_tsl 节点&#xa;· status&#xa;· time&#xa;· log_len&#xa;· addr.index&#xa;· addr.log" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff2cc;strokeColor=#d6b656;" parent="arch-1" vertex="1">
+                    <mxGeometry x="1220" y="720" width="120" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-state-machine" value="状态机与生命周期" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#ffcccc;strokeColor=#d79b00;" parent="arch-1" vertex="1">
+                    <mxGeometry x="100" y="840" width="1400" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-states" value="KV状态流转" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#f0f0f0;strokeColor=#666666;verticalAlign=top;" parent="arch-1" vertex="1">
+                    <mxGeometry x="120" y="900" width="600" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-unused" value="UNUSED" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#cccccc;" parent="arch-1" vertex="1">
+                    <mxGeometry x="140" y="940" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-prewrite" value="PRE_WRITE" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffcc;" parent="arch-1" vertex="1">
+                    <mxGeometry x="240" y="940" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-write" value="WRITE" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ccffcc;" parent="arch-1" vertex="1">
+                    <mxGeometry x="340" y="940" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-predelete" value="PRE_DELETE" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffcccc;" parent="arch-1" vertex="1">
+                    <mxGeometry x="440" y="940" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-deleted" value="DELETED" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ff9999;" parent="arch-1" vertex="1">
+                    <mxGeometry x="540" y="940" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sector-states" value="扇区状态流转" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#f0f0f0;strokeColor=#666666;verticalAlign=top;" parent="arch-1" vertex="1">
+                    <mxGeometry x="750" y="900" width="600" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sec-unused" value="UNUSED" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#cccccc;" parent="arch-1" vertex="1">
+                    <mxGeometry x="770" y="940" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sec-empty" value="EMPTY" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ccffcc;" parent="arch-1" vertex="1">
+                    <mxGeometry x="870" y="940" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sec-using" value="USING" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffcc;" parent="arch-1" vertex="1">
+                    <mxGeometry x="970" y="940" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sec-full" value="FULL" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffcccc;" parent="arch-1" vertex="1">
+                    <mxGeometry x="1070" y="940" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sec-gc" value="GC" style="ellipse;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;" parent="arch-1" vertex="1">
+                    <mxGeometry x="1170" y="940" width="80" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-core-mechanisms" value="核心机制与特性" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="arch-1" vertex="1">
+                    <mxGeometry x="100" y="1020" width="1400" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-feature-gc" value="垃圾回收机制&#xa;· 自动触发GC&#xa;· 有效数据迁移&#xa;· 空间回收&#xa;· 磨损均衡" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#d4edda;strokeColor=#28a745;" parent="arch-1" vertex="1">
+                    <mxGeometry x="120" y="1080" width="150" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-feature-cache" value="多级缓存&#xa;· KV缓存表&#xa;· 扇区缓存表&#xa;· LRU替换策略&#xa;· 快速查找" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#cce5ff;strokeColor=#007bff;" parent="arch-1" vertex="1">
+                    <mxGeometry x="290" y="1080" width="150" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-feature-power" value="掉电保护&#xa;· 原子操作&#xa;· 状态一致性&#xa;· 恢复检查&#xa;· 数据完整性" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff3cd;strokeColor=#ffc107;" parent="arch-1" vertex="1">
+                    <mxGeometry x="460" y="1080" width="150" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-feature-wear" value="磨损均衡&#xa;· 循环写入&#xa;· 最旧地址管理&#xa;· 扇区轮转&#xa;· 延长寿命" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffe6e6;strokeColor=#dc3545;" parent="arch-1" vertex="1">
+                    <mxGeometry x="630" y="1080" width="150" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-feature-compact" value="高度紧凑&#xa;· 零RAM占用&#xa;· 最小头部开销&#xa;· 对齐优化&#xa;· 空间高效" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#e2e3e5;strokeColor=#6c757d;" parent="arch-1" vertex="1">
+                    <mxGeometry x="800" y="1080" width="150" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-feature-multi" value="多实例支持&#xa;· 多分区管理&#xa;· 独立配置&#xa;· 并发安全&#xa;· 扩展性强" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#f8d7da;strokeColor=#dc3545;" parent="arch-1" vertex="1">
+                    <mxGeometry x="970" y="1080" width="150" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-feature-upgrade" value="增量升级&#xa;· 版本管理&#xa;· 自动升级&#xa;· 兼容性保证&#xa;· 平滑迁移" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#d1ecf1;strokeColor=#17a2b8;" parent="arch-1" vertex="1">
+                    <mxGeometry x="1140" y="1080" width="150" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-feature-rollover" value="TSDB循环模式&#xa;· 自动覆盖&#xa;· 时间序列&#xa;· 状态管理&#xa;· 高效查询" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fff2cc;strokeColor=#d6b656;" parent="arch-1" vertex="1">
+                    <mxGeometry x="1310" y="1080" width="150" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-api-to-kvdb" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="arch-1" source="arch-kvdb-api" target="arch-kvdb-core" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-api-to-tsdb" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="arch-1" source="arch-tsdb-api" target="arch-tsdb-core" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kvdb-to-common" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" parent="arch-1" source="arch-kvdb-core" target="arch-common-layer" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-tsdb-to-common" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="arch-1" source="arch-tsdb-core" target="arch-common-layer" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-flow1" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="arch-1" source="arch-kv-unused" target="arch-kv-prewrite" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-flow2" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="arch-1" source="arch-kv-prewrite" target="arch-kv-write" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-flow3" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="arch-1" source="arch-kv-write" target="arch-kv-predelete" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-kv-flow4" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="arch-1" source="arch-kv-predelete" target="arch-kv-deleted" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sec-flow1" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="arch-1" source="arch-sec-unused" target="arch-sec-empty" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sec-flow2" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="arch-1" source="arch-sec-empty" target="arch-sec-using" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sec-flow3" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="arch-1" source="arch-sec-using" target="arch-sec-full" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sec-flow4" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="arch-1" source="arch-sec-full" target="arch-sec-gc" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-sec-flow5" value="格式化" style="curved=1;endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=1;" parent="arch-1" source="arch-sec-gc" target="arch-sec-empty" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1210" y="1000"/>
+                            <mxPoint x="1050" y="1000"/>
+                            <mxPoint x="910" y="1000"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="arch-path-read" value="读路径: API → 缓存查找 → 扇区遍历 → Flash读取" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e6f3ff;strokeColor=#1ba1e2;" parent="arch-1" vertex="1">
+                    <mxGeometry x="50" y="1200" width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-path-write" value="写路径: API → 空间分配 → 状态流转 → Flash写入 → 缓存更新" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e6ffe6;strokeColor=#28a745;" parent="arch-1" vertex="1">
+                    <mxGeometry x="370" y="1200" width="350" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-path-gc" value="GC路径: 触发条件 → 标记扇区 → 迁移有效数据 → 格式化扇区" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffe6e6;strokeColor=#dc3545;" parent="arch-1" vertex="1">
+                    <mxGeometry x="740" y="1200" width="350" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="arch-path-recovery" value="恢复路径: 启动检查 → 状态修复 → 数据恢复 → 缓存重建" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fff3cd;strokeColor=#ffc107;" parent="arch-1" vertex="1">
+                    <mxGeometry x="1110" y="1200" width="320" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
